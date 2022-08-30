@@ -11,21 +11,29 @@ const res = (url)=>{
     }
 )}
 
-async function run(){
-    console.log(await res("http://www.baidu.com"))
+conn = new Promise((resolve,reject)=>{
     const conn = new RosApi({
         host: '192.168.2.33',
         user: 'admin',
         password: 'p34mv160',
     });
-    
     conn.connect()
-        .then(() => {
-            conn.write('/ip/address/print').then(data=>{
-                console.log(data)
-            })
+    .then(() => {
+        conn.write('/ip/address/print').then(data=>{
+            resolve(data)
+        conn.close()
         })
+    })
 
+})
+
+
+async function run(){
+    console.log(await res("http://www.baidu.com"))
+    console.log(await conn)
 }
+
+
+
 run()
 
