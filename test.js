@@ -1,10 +1,22 @@
+const net = require('net')
+
+const server = net.createServer((socket)=>{
+    console.log("start.....")
+        socket.on('data',(data)=>{
+        console.log(data.toString())
+        socket.write(`server send: ${data}`)
+            socket.end()
+    })
+
+})
 
 
 
+server.listen(8088,()=>{
+    console.log("listen")
+})
 
-url="okokokok"
-
-
-list1=[1,2,3,5,6]
-let now = new Date().getTime()
-console.log(new Date().getTime()-now)
+server.on("connection",socket => {
+       console.log(socket.remoteAddress)
+        socket.write("fdfdfdfdfdfdfd")
+    })

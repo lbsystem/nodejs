@@ -15,7 +15,7 @@ const res = (url)=>{
 const conn = new RosApi({
     host: '192.168.2.33',
     user: 'admin',
-    password: 'p34mv160',
+    password: 'XXXXXX',
     keepalive: true
 });
 
@@ -52,7 +52,7 @@ async function run(){
     await conn.connect()
     console.log("start")
 
-        //数字10是并发数量
+        //数字900是并发数量
     async.mapLimit(adders, 900, async item => { // <- no callback!
         let data = await api_routes(conn,item);
         return data; // <- return a value!
@@ -66,7 +66,5 @@ async function run(){
  
     // console.log(adders.length)
 }
-
-
 
 run()
