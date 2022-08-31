@@ -1,4 +1,5 @@
 const RosApi = require('node-routeros').RouterOSAPI;
+const { connectionLabels } = require('mikronode');
 const request = require('request');
 
 const res = (url)=>{
@@ -11,35 +12,41 @@ const res = (url)=>{
     }
 )}
 
-conn = new Promise((resolve,reject)=>{
-    const conn = new RosApi({
-        host: '192.168.2.33',
-        user: 'admin',
-        password: 'p34mv160',
-    });
-    conn.connect()
-    .then(() => {
-        conn.write('/ip/address/print').then(data=>{
-            resolve(data)
-        conn.close()
-        })
-    })
+const conn = new RosApi({
+    host: '192.168.1.36',
+    user: 'admin',
+    password: 'p34mv160',
+    keepalive: true
+});
+
+conn1 = function api(conn,addrs){
+    return new Promise((resolve,reject)=>{
+
+
+
+            conn.write('/ip/firewall/address-list/add',
+                        [`=address=${addrs}`,"=list=nodejs"]).then(data=>{
+                            resolve(data)
+            })
+                .catch(data=>{
+                            console.log("---------",data)
+            })
 
 })
 
 
-// async function run(){
-//    let data = await res("https://raw.githubusercontent.com/cresky-github/RouterOS/main/WorldRoute.rsc")
-//     let reg = /(\d{1,3}\.){3}\d{1,3}\/\d{1,2}/g
-//     // let data1=data.search(/(\d{1,3}\.){3}\d{1,3}/g)
-//     let data1=data.match(reg)
-//     for(i of data1){
-//         console.log(i)
-//     // console.log(data1)
-//     }
-//     // console.log(data1)
-//
-// }
+async function run(){
+   let data = await res("https://raw.githubusercontent.com/cresky-github/RouterOS/main/WorldRoute.rsc")
+    let reg = /(\d{1,3}\.){3}\d{1,3}\/\d{1,2}/g
+    // let data1=data.search(/(\d{1,3}\.){3}\d{1,3}/g)
+    let data1=data.match(reg)
+    for(i of data1){
+        console.log(i)
+    // console.log(data1)
+    }
+    // console.log(data1)
+    
+}
 
 
 
