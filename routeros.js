@@ -28,18 +28,18 @@ conn = new Promise((resolve,reject)=>{
 })
 
 
-async function run(){
-   let data = await res("https://raw.githubusercontent.com/cresky-github/RouterOS/main/WorldRoute.rsc")
-    let reg = /(\d{1,3}\.){3}\d{1,3}\/\d{1,2}/g
-    // let data1=data.search(/(\d{1,3}\.){3}\d{1,3}/g)
-    let data1=data.match(reg)
-    for(i of data1){
-        console.log(i)
-    // console.log(data1)
-    }
-    // console.log(data1)
-    
-}
+// async function run(){
+//    let data = await res("https://raw.githubusercontent.com/cresky-github/RouterOS/main/WorldRoute.rsc")
+//     let reg = /(\d{1,3}\.){3}\d{1,3}\/\d{1,2}/g
+//     // let data1=data.search(/(\d{1,3}\.){3}\d{1,3}/g)
+//     let data1=data.match(reg)
+//     for(i of data1){
+//         console.log(i)
+//     // console.log(data1)
+//     }
+//     // console.log(data1)
+//
+// }
 
 
 
