@@ -18,7 +18,7 @@ async function _sql(connection,sql){
 }
 
 async function run(){
-   let sql="select * from ipip where country='HK'";
+   let sql="select * from ipip where country='CN'";
    let res= await _sql(connection,sql);
     for(i of res){
         console.log(i.ASN)

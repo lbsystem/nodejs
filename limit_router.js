@@ -1,3 +1,4 @@
+const async = require('async');
 const RosApi = require('node-routeros').RouterOSAPI;
 const request = require('request');
 
@@ -34,14 +35,14 @@ async function api_routes(conn,adders){
     return new Promise((resolve,reject)=>{
         conn.write('/ip/route/add',
             [`=dst-address=${adders}`,"=routing-table=test","=gateway=2.2.2.2"]).then(data=>{
-            resolve(data)
+            resolve(`${adders} ok`)
         })
             .catch(data=>{
                 console.log("---------",data)
             })
     })
 }
-let tasks=[]
+let now = new Date().getTime()
 async function run(){
 
     let data = await res("https://raw.githubusercontent.com/cresky-github/RouterOS/main/WorldRoute.rsc")
@@ -49,24 +50,23 @@ async function run(){
     let now = new Date().getTime()
     let adders=data.match(reg)
     await conn.connect()
-    for(i of adders.slice(1,11900)){
-      
-        tasks.push(api_adders_list(conn,i))
-        // console.log(i)
+    console.log("start")
 
-    }
-    Promise.allSettled(tasks).then(data=>{
-        console.log("ook")
-        let _now = new Date().getTime()
-        console.log(_now-now)
-        conn.close()
-    }).catch(e=>{
-        console.log("-----------------",e)
-    })
+        //数字10是并发数量
+    async.mapLimit(adders, 900, async item => { // <- no callback!
+        let data = await api_routes(conn,item);
+        return data; // <- return a value!
+    }, (err, contents) => {
+        if (err) throw err;
+        console.log(contents);
+        console.log(new Date().getTime()-now)
+        conn.close
+
+    });
+ 
     // console.log(adders.length)
 }
 
 
 
 run()
-
