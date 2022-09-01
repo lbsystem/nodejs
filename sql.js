@@ -14,7 +14,6 @@ async function _sql(connection,sql){
             connection.end()
         })
     })
-
 }
 
 async function run(){

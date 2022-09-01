@@ -16,7 +16,7 @@ const conn = new RosApi({
     host: '192.168.2.33',
     user: 'admin',
     password: 'XXXXXX',
-    keepalive: true
+    timeout:600
 });
 
 async function api_adders_list(conn,adders){
@@ -46,6 +46,7 @@ let now = new Date().getTime()
 async function run(){
 
     let data = await res("https://raw.githubusercontent.com/cresky-github/RouterOS/main/WorldRoute.rsc")
+   
     let reg = /(\d{1,3}\.){3}\d{1,3}\/\d{1,2}/g
     let now = new Date().getTime()
     let adders=data.match(reg)
@@ -56,13 +57,14 @@ async function run(){
     async.mapLimit(adders, 900, async item => { // <- no callback!
         let data = await api_routes(conn,item);
         return data; // <- return a value!
-    }, (err, contents) => {
-        if (err) throw err;
+                                }, 
+        (err, contents) => {
+        if (err) console.log(item);
+        conn.close
         console.log(contents);
         console.log(new Date().getTime()-now)
-        conn.close
-
-    });
+        }
+    );
  
     // console.log(adders.length)
 }
