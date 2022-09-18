@@ -23,5 +23,5 @@ async function run(){
         console.log(i.ASN)
     }
 }
-
+console.log("fdsf")
 run()
